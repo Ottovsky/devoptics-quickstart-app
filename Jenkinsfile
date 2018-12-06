@@ -9,10 +9,8 @@ node {
 
     }
     stage('docker-build-push') {
-        steps { 
             def dockerImage = docker.build("devoptics-quickstart-app:${env.BUILD_ID}")
             dockerImage.push()
-        }
     }
     stage ('fingerprint') {
         archiveArtifacts artifacts: "target/*.jar", fingerprint: true
