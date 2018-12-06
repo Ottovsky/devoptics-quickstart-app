@@ -9,8 +9,6 @@ node {
 
     }
     stage('docker-build-push') {
-       
-        agent { label docker } 
         steps { 
             def dockerImage = docker.build("devoptics-quickstart-app:${env.BUILD_ID}")
             dockerImage.push()
