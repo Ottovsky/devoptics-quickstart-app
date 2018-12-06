@@ -3,6 +3,7 @@ node {
         checkout scm
     }
     stage ('build') {
+        agent { dockerfile true }
         withMaven(maven: 'maven-aotto') {
             sh "mvn clean install"
         }
