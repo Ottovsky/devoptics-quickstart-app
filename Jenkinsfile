@@ -57,7 +57,7 @@ spec:
             sh 'mvn -B clean install -Dmaven.test.skip=true'
           }
           container('docker'){
-            def dockerImage = docker.build("ottovsky/devoptics-quickstart-app/devoptics-quickstart-app:${env.BUILD_ID}")
+            def dockerImage = docker.build("ottovsky/devoptics-quickstart-app:${env.BUILD_ID}")
             dockerImage.push()
           }
             
