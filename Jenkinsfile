@@ -57,12 +57,14 @@ spec:
             sh 'mvn -B clean install -Dmaven.test.skip=true'
           }
           container('docker'){
-            def dockerImage = docker.build("ottovsky/devoptics-quickstart-app:${env.BUILD_ID}")
-            dockerImage.push()
+            docker.withRegistry('docker.io','fb615dd7-9a9c-416c-b747-8a55b473bc41'){
+              def dockerImage = docker.build("ottovsky/devoptics-quickstart-app:${env.BUILD_ID}")
+              dockerImage.push()
+            }
           }
             
         } finally {
-          archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/*.hpi,**/target/*.jpi'
+          archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/*.jar'
         }
       }
     }
