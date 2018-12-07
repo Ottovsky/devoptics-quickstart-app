@@ -41,6 +41,11 @@ spec:
     volumeMounts:
     - name: 'docker-socket'
       mountPath: /var/run/docker.sock
+  - name: kubectl
+    image: gcr.io/cloud-builders/kubectl
+    command:
+    - cat
+    tty: true 
   volumes:
   - name: 'docker-socket'
     hostPath:
@@ -69,6 +74,12 @@ spec:
             
         } finally {
           archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/*.jar'
+        }
+      }
+      stage('Deploy to k8s') {
+        container('kubectl'){
+          sh 'kubeclt cluster-info'
+          sh 'kubectl config view --raw'
         }
       }
     }
