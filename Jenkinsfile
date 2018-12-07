@@ -78,8 +78,8 @@ spec:
       }
       stage('Deploy to k8s') {
         container('kubectl'){
-          sh 'kubectl cluster-info'
-          sh 'kubectl config view --raw'
+          sh "kubectl get deployment devoptics-staging && kubectl set image deployment/devoptics-staging devoptics-staging=ottovsky/devoptics-quickstart-app:${env.BUILD_ID} || echo"
+          sh "kubectl get deployment devoptics-staging || kubectl run --image ottovsky/devoptics-quickstart-app:${env.BUILD_ID} devoptics-staging -- /bin/sh -c 'while true; do java -cp /devoptics-quickstart-1.0-SNAPSHOT.jar devoptics.App; sleep 5; done'"
         }
       }
     }
