@@ -78,7 +78,7 @@ spec:
       }
       stage('Deploy to k8s') {
         container('kubectl'){
-          sh 'kubeclt cluster-info'
+          sh 'kubectl cluster-info'
           sh 'kubectl config view --raw'
         }
       }
