@@ -38,6 +38,14 @@ spec:
       value: ${env.BUILD_NUMBER}
     - name: BRANCH_NAME
       value: ${env.BRANCH_NAME}
+    volumeMounts:
+    - name: 'docker-socket'
+      mountPath: /var/run/docker.sock
+   volumes:
+   - name: 'docker-socket'
+     hostPath:
+     path: /var/run/docker.sock
+     type: File
     """) {
     node(label) {
       stage('Checkout') {
