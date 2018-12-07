@@ -57,10 +57,14 @@ spec:
             sh 'mvn -B clean install -Dmaven.test.skip=true'
           }
           container('docker'){
-            docker.withRegistry('https://index.docker.io/v1/','fb615dd7-9a9c-416c-b747-8a55b473bc41'){
+            
+          withCredentials([usernamePassword( credentialsId: 'fb615dd7-9a9c-416c-b747-8a55b473bc41', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+            docker.withRegistry('', 'fb615dd7-9a9c-416c-b747-8a55b473bc41') {
+              sh "docker login -u ${USERNAME} -p ${PASSWORD}"
               def dockerImage = docker.build("ottovsky/devoptics-quickstart-app:${env.BUILD_ID}")
               dockerImage.push()
             }
+          }
           }
             
         } finally {
